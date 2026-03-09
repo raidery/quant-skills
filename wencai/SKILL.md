@@ -1,6 +1,6 @@
 ---
 name: wencai
-description: "Query Chinese A-share market data using pywencai library with natural language queries. Use when users need to: (1) Query real-time stock prices, financial indicators, or technical analysis data for A-share stocks, (2) Search for stocks by conditions (e.g., 市盈率小于20的科技股, 昨日涨幅前10), (3) Get sector/industry information, (4) Query indices, funds, convertible bonds, or other financial instruments, (5) Analyze financial statements or technical indicators. Triggers on mentions of: A股, 同花顺, 问财, pywencai, Chinese stocks, or natural language stock queries in Chinese."
+description: "Query Chinese A-share market data using pywencai library with natural language queries. Use when users need to: (1) Query real-time stock prices, financial indicators, or technical analysis data for A-share stocks, (2) Search for stocks by conditions (e.g., 市盈率小于20的科技股, 昨日涨幅前10), (3) Get sector/industry information, (4) Query indices, funds, convertible bonds, or other financial instruments, (5) Analyze financial statements or technical indicators. Triggers on mentions of: A股, 同花顺, 问财,wencai, pywencai, A股, Chinese stocks, or natural language stock queries in Chinese."
 ---
 
 # Wencai - A股市场数据查询
