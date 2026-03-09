@@ -171,3 +171,65 @@ pywencai.get(query='近3个月每日市盈率', pro=True, cookie='xxx')
 # 特定日期
 pywencai.get(query='2024年1月1日的涨幅', cookie='xxx')
 ```
+
+## 完整实战示例
+
+### 多条件技术面选股（已验证可运行）
+
+```python
+import pywencai
+
+# -------------------------- 核心配置 --------------------------
+# 1. 替换为你自己的问财Cookie（获取方式见SKILL.md）
+COOKIE = "你的问财Cookie值"
+
+# 2. 构造问财查询语句
+QUERY = """
+涨幅大于1%，大单金额大于5000万，10日内ma10金叉ma60，
+月macd大于0，流通市值大于50亿，收盘价大于ma10，ma10向上角度大于40度
+""".replace("\n", "").strip()  # 去除换行符，保证查询语句格式正确
+
+# -------------------------- 执行查询 --------------------------
+def get_wencai_data():
+    try:
+        # 调用pywencai.get方法查询数据
+        result = pywencai.get(
+            query=QUERY,          # 核心查询语句
+            cookie=COOKIE,        # 必填：问财Cookie
+            loop=True,            # 循环分页，返回全部结果（默认False仅返回第1页）
+            perpage=100,          # 每页条数（最大100，问财限制）
+            log=True,             # 打印日志（方便排查问题）
+            query_type="stock",   # 查询类型：股票（默认值，可省略）
+            # request_params={"proxies": {"http": "http://代理IP:端口"}}  # 可选：添加代理（如需）
+        )
+        return result
+    except Exception as e:
+        print(f"查询失败：{str(e)}")
+        return None
+
+# -------------------------- 结果处理 --------------------------
+if __name__ == "__main__":
+    data = get_wencai_data()
+    if data is not None:
+        print(f"查询结果共 {len(data)} 条")
+        print("\n前5条数据：")
+        print(data.head())
+
+        # 可选：保存到CSV
+        # data.to_csv('wencai_result.csv', index=False, encoding='utf-8-sig')
+```
+
+**查询条件说明：**
+- `涨幅大于1%` - 当日涨幅筛选
+- `大单金额大于5000万` - 资金流入筛选
+- `10日内ma10金叉ma60` - 均线金叉信号
+- `月macd大于0` - MACD月线多头
+- `流通市值大于50亿` - 市值筛选
+- `收盘价大于ma10` - 价格在均线之上
+- `ma10向上角度大于40度` - 均线角度筛选
+
+**参数说明：**
+- `loop=True` - 自动翻页获取所有结果
+- `perpage=100` - 每页最多100条（问财限制）
+- `log=True` - 显示查询日志，便于调试
+- `query_type="stock"` - 指定查询股票数据

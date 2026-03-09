@@ -64,6 +64,27 @@ pywencai.get(query='新能源汽车板块', cookie=cookie)
 pywencai.get(query='MACD金叉', cookie=cookie)
 ```
 
+### Advanced Multi-Condition Screening
+```python
+# Complex technical analysis (verified working example)
+query = """
+涨幅大于1%，大单金额大于5000万，10日内ma10金叉ma60，
+月macd大于0，流通市值大于50亿，收盘价大于ma10，ma10向上角度大于40度
+""".replace("\n", "").strip()
+
+result = pywencai.get(
+    query=query,
+    cookie=cookie,
+    loop=True,      # Get all pages
+    perpage=100,    # Max 100 per page
+    log=True        # Show debug logs
+)
+
+if result is not None:
+    print(f"Found {len(result)} stocks")
+    print(result.head())
+```
+
 ### Sorted Results
 ```python
 pywencai.get(
